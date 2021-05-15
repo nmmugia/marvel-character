@@ -13,6 +13,7 @@ Marvel Character sevice which contains APIs and one job to handle Marvel's chara
 ```bash
 $ docker-compose up
 ```
+
 ## step to run without docker
 1. Install redis, [go](https://golang.org/doc/install) (should be using v1.12.12>)
 2. copy .env.example file into .env, and filled the configuration with the intended value
@@ -21,6 +22,12 @@ $ docker-compose up
 $ go mod download
 $ go build -o main
 $ go run main.go
+
+```
+
+## test the code
+```bash
+$ go test ./...
 
 ```
 

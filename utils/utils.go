@@ -4,10 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -95,38 +92,6 @@ func ParseFromString(value string) (res time.Time, err error) {
 	}
 
 	return res, err
-}
-
-// HitMarvelsEndpoint func is to hit marvel's endpoint based on method(GET, POST, etc), path, and params(should be "&key=value" format)
-func HitMarvelsEndpoint(method string, path string, params string) (result models.MarvelsResult, err error) {
-	var (
-		ts  = time.Now().Unix()
-		url = fmt.Sprintf("%s/%s?ts=%d&apikey=%s&hash=%s",
-			strings.TrimRight(os.Getenv("MARVEL_BASE_URL"), "/"),
-			strings.TrimLeft(path, "/"), ts,
-			os.Getenv("PUBLIC_KEY"),
-			StringToMD5(fmt.Sprint(ts)+os.Getenv("PRIVATE_KEY")+os.Getenv("PUBLIC_KEY")),
-		)
-		client = &http.Client{}
-	)
-	req, err := http.NewRequest(method, url+params, nil)
-	if err != nil {
-		return result, err
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return result, err
-	}
-
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return result, err
-	}
-
-	if err := json.Unmarshal([]byte(bodyBytes), &result); err != nil {
-		return result, err
-	}
-	return result, err
 }
 
 // IsInteger : Is Integer ?

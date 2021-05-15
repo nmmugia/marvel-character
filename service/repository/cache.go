@@ -9,10 +9,10 @@ import (
 )
 
 type cacheRepository struct {
-	redisClient *redis.Client
+	redisClient redis.Cmdable
 }
 
-func NewCacheRepository(redisClient *redis.Client) service.CacheRepository {
+func NewCacheRepository(redisClient redis.Cmdable) service.CacheRepository {
 	return cacheRepository{redisClient}
 }
 

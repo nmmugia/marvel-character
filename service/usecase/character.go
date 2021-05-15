@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -71,7 +73,7 @@ func (uc characterUsecase) GetCharacters(param models.GetCharactersParam) (resul
 
 	// default flow
 
-	resp, err := u.HitMarvelsEndpoint("GET", "characters", paramURL)
+	resp, err := uc.HitMarvelsEndpoint("GET", "characters", paramURL)
 	if err != nil {
 		errx = models.CreateErrx(http.StatusInternalServerError, err, "While use HitMarvelsEndpoint")
 		return result, errx
@@ -123,7 +125,7 @@ func (uc characterUsecase) GetCharacterByIDs(ids string) (result types.JSONText,
 		log.Println("Error while marshalling result from cache, cause:" + err.Error())
 	}
 
-	resp, err := u.HitMarvelsEndpoint("GET", "characters/"+ids, "")
+	resp, err := uc.HitMarvelsEndpoint("GET", "characters/"+ids, "")
 	if err != nil {
 		errx = models.CreateErrx(http.StatusInternalServerError, err, "While use HitMarvelsEndpoint")
 		return result, errx
@@ -180,7 +182,7 @@ func (uc characterUsecase) GetAllDataByCache() (errx models.Errorx) {
 				url = "characters"
 			}
 
-			resp, err := u.HitMarvelsEndpoint("GET", url, param)
+			resp, err := uc.HitMarvelsEndpoint("GET", url, param)
 			if err != nil {
 				errx = models.CreateErrx(http.StatusInternalServerError, err, "While use HitMarvelsEndpoint")
 				log.Println(errx.Message, errx.Err.Error())
@@ -218,4 +220,35 @@ func (uc characterUsecase) GetAllDataByCache() (errx models.Errorx) {
 	errx.Status = http.StatusOK
 	errx.Message = "Cron has been successfully executed"
 	return errx
+}
+
+func (uc characterUsecase) HitMarvelsEndpoint(method string, path string, params string) (result models.MarvelsResult, err error) {
+	var (
+		ts  = time.Now().Unix()
+		url = fmt.Sprintf("%s/%s?ts=%d&apikey=%s&hash=%s",
+			strings.TrimRight(os.Getenv("MARVEL_BASE_URL"), "/"),
+			strings.TrimLeft(path, "/"), ts,
+			os.Getenv("PUBLIC_KEY"),
+			u.StringToMD5(fmt.Sprint(ts)+os.Getenv("PRIVATE_KEY")+os.Getenv("PUBLIC_KEY")),
+		)
+		client = &http.Client{}
+	)
+	req, err := http.NewRequest(method, url+params, nil)
+	if err != nil {
+		return result, err
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return result, err
+	}
+
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return result, err
+	}
+
+	if err := json.Unmarshal([]byte(bodyBytes), &result); err != nil {
+		return result, err
+	}
+	return result, err
 }

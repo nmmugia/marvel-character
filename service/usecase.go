@@ -10,5 +10,6 @@ type (
 		GetCharacters(param models.GetCharactersParam) (result types.JSONText, errx models.Errorx)
 		GetCharacterByIDs(ids string) (result types.JSONText, errx models.Errorx)
 		GetAllDataByCache() (errx models.Errorx)
+		HitMarvelsEndpoint(method string, path string, params string) (result models.MarvelsResult, err error)
 	}
 )
