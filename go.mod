@@ -1,4 +1,4 @@
-module github.com/nmmugia/marvel
+module github.com/nmmugia/marvel-character
 
 go 1.12
 

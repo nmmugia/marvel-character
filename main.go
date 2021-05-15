@@ -7,7 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/nmmugia/marvel/config"
+	"github.com/nmmugia/marvel-character/config"
 )
 
 func main() {
