@@ -1,0 +1,103 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Marvel Character Endpoint
+  contact: {}
+host: localhost:8080
+basePath: /
+schemes:
+- http
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /characters:
+    get:
+      summary: Get Characters By Parameters
+      tags:
+      - Misc
+      operationId: GetCharactersByParameters
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        type: string
+        description: 'Spider-Man'
+      - name: comics
+        in: query
+        type: string
+        description: '10235,29303'
+      - name: series
+        in: query
+        type: string
+        description: '27634,10235'
+      - name: name_starts_with
+        in: query
+        type: string
+        description: 'S'
+      - name: events
+        in: query
+        type: string
+        description: '116,314'
+      - name: stories
+        in: query
+        type: string
+        description: '483,486'
+      - name: limit
+        in: query
+        type: integer
+        description: '100'
+      - name: offset
+        in: query
+        type: integer
+        description: '0'
+      - name: order_by
+        in: query
+        type: string
+        description: '-name'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /characters/{id}:
+    get:
+      summary: Get Characters By ID
+      tags:
+      - Misc
+      operationId: GetCharactersByID
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id  
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+        description: 1009372  
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /jobs/get-data-by-cache:
+    post:
+      summary: Manual Run Cron Job to Get Data by Cache
+      tags:
+      - Misc
+      operationId: ManualRunCronJobtoGetDatabyCache
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+tags:
+- name: Misc
+  description: ''
