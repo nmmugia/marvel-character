@@ -3,7 +3,7 @@ package service
 import (
 	"time"
 
-	"github.com/nmmugia/marvel/models"
+	"github.com/nmmugia/marvel-character/models"
 )
 
 type (

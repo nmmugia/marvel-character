@@ -4,12 +4,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/nmmugia/marvel/models"
+	"github.com/nmmugia/marvel-character/models"
 
 	"github.com/gorilla/mux"
 
-	"github.com/nmmugia/marvel/service"
-	u "github.com/nmmugia/marvel/utils"
+	"github.com/nmmugia/marvel-character/service"
+	u "github.com/nmmugia/marvel-character/utils"
 )
 
 type Handler struct {

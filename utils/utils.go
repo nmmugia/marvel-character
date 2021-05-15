@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/nmmugia/marvel/models"
+	"github.com/nmmugia/marvel-character/models"
 )
 
 // Message function is to build response per standard

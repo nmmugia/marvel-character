@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/jmoiron/sqlx/types"
-	"github.com/nmmugia/marvel/models"
+	"github.com/nmmugia/marvel-character/models"
 )
 
 type (

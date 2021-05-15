@@ -1,15 +1,16 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"github.com/go-redis/redis"
-	"github.com/nmmugia/marvel/service/usecase"
+	"github.com/nmmugia/marvel-character/service/usecase"
 
-	"github.com/nmmugia/marvel/controllers"
+	"github.com/nmmugia/marvel-character/controllers"
 
 	"github.com/gorilla/mux"
-	"github.com/nmmugia/marvel/service/repository"
+	"github.com/nmmugia/marvel-character/service/repository"
 )
 
 type Config struct {
@@ -34,4 +35,7 @@ func (cfg *Config) InitCache() {
 		Password: os.Getenv("REDIS_CACHE_PWD"),
 		DB:       0,
 	})
+
+	strStatus, err := cfg.Redis.Ping().Result()
+	log.Println(strStatus, err)
 }

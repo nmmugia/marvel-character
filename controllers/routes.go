@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/nmmugia/marvel/service"
+	"github.com/nmmugia/marvel-character/service"
 )
 
 // ListRoutes is the function where you could set up url

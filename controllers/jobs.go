@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nmmugia/marvel/service"
+	"github.com/nmmugia/marvel-character/service"
 	"github.com/robfig/cron"
 )
 

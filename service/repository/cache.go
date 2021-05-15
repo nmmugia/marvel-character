@@ -1,10 +1,11 @@
 package repository
 
 import (
+	"log"
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/nmmugia/marvel/service"
+	"github.com/nmmugia/marvel-character/service"
 )
 
 type cacheRepository struct {
@@ -16,7 +17,11 @@ func NewCacheRepository(redisClient *redis.Client) service.CacheRepository {
 }
 
 func (repo cacheRepository) Set(key string, value interface{}, duration time.Duration) error {
-	return repo.redisClient.Set(key, value, duration).Err()
+	if err := repo.redisClient.Set(key, value, duration).Err(); err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
 func (repo cacheRepository) Get(key string) (data string) {
